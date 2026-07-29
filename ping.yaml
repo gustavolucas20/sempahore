@@ -1,0 +1,16 @@
+---
+- name: Testar conectividade externa para 8.8.8.8
+  hosts: all
+  gather_facts: false
+ 
+  tasks:
+    - name: Executar ping para 8.8.8.8
+      ansible.builtin.command:
+        cmd: ping -c 4 8.8.8.8
+      register: ping_output
+      changed_when: false
+      failed_when: ping_output.rc != 0
+ 
+    - name: Exibir resultado do ping
+      ansible.builtin.debug:
+        msg: "Sucesso! O host {{ inventory_hostname }} possui conectividade de rede com o IP 8.8.8.8."
